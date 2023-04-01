@@ -2,21 +2,22 @@ package com.yorha.controller;
 
 import com.yorha.model.User;
 import com.yorha.service.UserService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private final UserService userService;
+    @Resource
+    private  UserService userService;
 
-    public UserController(@Qualifier("UserServiceImpl") UserService userService) {
+    public UserController( UserService userService) {
         this.userService = userService;
     }
 
@@ -30,8 +31,7 @@ public class UserController {
     @GetMapping("/find")
     @ResponseBody
     public User find(){
-        User user = userService.find(1);
-        return user;
+        return userService.find(1);
     }
 
 }

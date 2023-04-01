@@ -6,10 +6,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserMoodPraiseRelServiceImpl implements UserMoodPraiseRelService{
+    private final UserMoodPraiseRelMapper userMoodPraiseRelMapper;
 
-    private UserMoodPraiseRelMapper userMoodPraiseRelMapper;
-
-    public void setUserMoodPraiseRelMapper(UserMoodPraiseRelMapper userMoodPraiseRelMapper) {
+    public UserMoodPraiseRelServiceImpl(UserMoodPraiseRelMapper userMoodPraiseRelMapper) {
         this.userMoodPraiseRelMapper = userMoodPraiseRelMapper;
     }
 

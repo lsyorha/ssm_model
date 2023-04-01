@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
     <!-- 扫描service相关的bean -->
-    <!--BookServiceImpl注入到IOC容器中-->
-    <bean id="UserServiceImpl" class="com.yorha.service.UserServiceImpl">
-        <!--        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口-->
+    <context:component-scan base-package="com.yorha.service"/>
+    <!--BookServiceImpl注入到IOC容器中，可以通过@Service   +    @Autowired实现自动装配，调用的话通过@Resource即可-->
+<!--    <bean id="UserServiceImpl" class="com.yorha.service.UserServiceImpl">
+        &lt;!&ndash;        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口&ndash;&gt;
         <property name="userMapper" ref="userMapper"/>
     </bean>
     <bean id="UserMoodPraiseRelServiceImpl" class="com.yorha.service.UserMoodPraiseRelServiceImpl">
-        <!--        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口-->
+        &lt;!&ndash;        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口&ndash;&gt;
         <property name="userMoodPraiseRelMapper" ref="userMoodPraiseRelMapper"/>
     </bean>
     <bean id="MoodServiceImpl" class="com.yorha.service.MoodServiceImpl">
-    <!--        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口-->
+    &lt;!&ndash;        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口&ndash;&gt;
     <property name="moodMapper" ref="moodMapper"/>
     <property name="userMapper" ref="userMapper"/>
-    </bean>
-    <!-- 配置事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <!-- 注入数据库连接池 -->
+    </bean>-->
+    <!-- 配置事务管理器，没用到 -->
+<!--    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        &lt;!&ndash; 注入数据库连接池 &ndash;&gt;
         <property name="dataSource" ref="dataSource" />
-    </bean>
+    </bean>-->
 </beans>

@@ -14,15 +14,12 @@ import java.util.List;
 @Service
 public class MoodServiceImpl implements MoodService{
 
-    private MoodMapper moodMapper;
-    private UserMapper userMapper;
+    private final MoodMapper moodMapper;
+    private final UserMapper userMapper;
 
-    public void setUserMapper(UserMapper userMapper){
-        this.userMapper=userMapper;
-    }
-
-    public void setMoodMapper(MoodMapper moodMapper) {
+    public MoodServiceImpl(MoodMapper moodMapper, UserMapper userMapper) {
         this.moodMapper = moodMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -33,7 +30,7 @@ public class MoodServiceImpl implements MoodService{
 //    Mood转为MoodDTO,用于前端展示
     private List<MoodDTO> convertModel2DTO(List<MoodDTO> moodList){
         if (CollectionUtils.isEmpty(moodList)) return Collections.EMPTY_LIST;
-        List<MoodDTO> moodDTOList = new ArrayList<MoodDTO>();
+        List<MoodDTO> moodDTOList = new ArrayList<>();
         for (Mood mood : moodList) {
             MoodDTO moodDTO1 = new MoodDTO();
             //mood属性
@@ -47,7 +44,7 @@ public class MoodServiceImpl implements MoodService{
             moodDTO1.setUserName(user.getName());
             moodDTO1.setUserAccount(user.getAccount());
 
-            System.out.println(moodDTO1.toString());
+            System.out.println(moodDTO1);
             moodDTOList.add(moodDTO1);
         }
         return moodDTOList;

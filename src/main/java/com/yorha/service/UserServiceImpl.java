@@ -9,11 +9,11 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
-    public void setUserMapper(UserMapper userMapper) {
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
-
-    private  UserMapper userMapper;
 
 
     @Override
@@ -23,8 +23,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User find(Integer id) {
-        User user = userMapper.find(id);
-        return user;
+        return userMapper.find(id);
     }
 
     public UserDTO convertModel2DTO(User user){
