@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--核心配置文件-->
+<configuration>
+
+    <!--3-->
+    <!--    缩写,用于resultType-->
+    <typeAliases>
+        <typeAlias type="com.yorha.model.User" alias="user"/>
+        <typeAlias type="com.yorha.model.Mood" alias="mood"/>
+        <typeAlias type="com.yorha.model.UserMoodPraiseRel" alias="userMoodPraiseRel"/>
+    </typeAliases>
+
+    <!--倒1-->
+    <!--  注册mapper可以通过@Repository注解实现  -->
+<!--    <mappers>
+        <mapper class="com.yorha.dao.UserMapper"/>
+        <mapper class="com.yorha.dao.MoodMapper"/>
+        <mapper class="com.yorha.dao.UserMoodPraiseRelMapper"/>
+    </mappers>-->
+</configuration>

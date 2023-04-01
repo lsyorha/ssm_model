@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 扫描service相关的bean -->
+    <!--BookServiceImpl注入到IOC容器中-->
+    <bean id="UserServiceImpl" class="com.yorha.service.UserServiceImpl">
+        <!--        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口-->
+        <property name="userMapper" ref="userMapper"/>
+    </bean>
+    <bean id="UserMoodPraiseRelServiceImpl" class="com.yorha.service.UserMoodPraiseRelServiceImpl">
+        <!--        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口-->
+        <property name="userMoodPraiseRelMapper" ref="userMoodPraiseRelMapper"/>
+    </bean>
+    <bean id="MoodServiceImpl" class="com.yorha.service.MoodServiceImpl">
+    <!--        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口-->
+    <property name="moodMapper" ref="moodMapper"/>
+    <property name="userMapper" ref="userMapper"/>
+    </bean>
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+</beans>

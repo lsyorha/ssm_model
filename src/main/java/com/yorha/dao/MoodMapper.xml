@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yorha.dao.MoodMapper">
+    <select id="findAll" resultType="mood">
+        select id, content, user_id as userId, publish_time as publishTime,praise_num as praiseNum from book.mood
+    </select>
+</mapper>
