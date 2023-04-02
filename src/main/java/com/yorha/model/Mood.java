@@ -2,8 +2,18 @@ package com.yorha.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Mood implements Serializable {
+    private Mood mood;  // 这里假设 mood 属性的类型为 Mood
+
+    public Mood getMood() {
+        return mood;
+    }
+
+    public void setMood(Mood mood) {
+        this.mood = mood;
+    }
     public Integer getId() {
         return id;
     }
@@ -18,7 +28,7 @@ public class Mood implements Serializable {
                 ", content='" + content + '\'' +
                 ", userId=" + userId +
                 ", publishTime=" + publishTime +
-                ", publishNum=" + praiseNum +
+                ", praiseNum=" + praiseNum +
                 '}';
     }
 
@@ -59,7 +69,8 @@ public class Mood implements Serializable {
     }
 
     public Integer getPraiseNum() {
-        return praiseNum;
+        // 如果 praiseNum 为空则返回 0
+        return Objects.requireNonNullElse(praiseNum, 0);
     }
 
     public void setPraiseNum(Integer praiseNum) {

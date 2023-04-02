@@ -23,14 +23,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User find(Integer id) {
-        return userMapper.find(id);
+        return convertModel2DTO(userMapper.find(id));
     }
 
-    public UserDTO convertModel2DTO(User user){
+    private UserDTO convertModel2DTO(User user){
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setAccount(user.getAccount());
         userDTO.setName(user.getName());
         return userDTO;
     }
+
 }

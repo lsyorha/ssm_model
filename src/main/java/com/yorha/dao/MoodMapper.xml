@@ -6,4 +6,23 @@
     <select id="findAll" resultType="mood">
         select id, content, user_id as userId, publish_time as publishTime,praise_num as praiseNum from book.mood
     </select>
+
+    <select id="findById" resultType="mood">
+        select id, content, user_id as userId, publish_time as publishTime,praise_num as praiseNum
+        from book.mood where id = #{id}
+    </select>
+
+    <update id="update">
+        update mood
+        <set>
+            <if test="content != null and content !=''">
+                content = #{content},
+            </if>
+            <if test="praiseNum != null and praiseNum !=''">
+                praise_num = #{praiseNum},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

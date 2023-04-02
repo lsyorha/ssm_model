@@ -2,9 +2,11 @@ package com.yorha.service;
 
 import com.yorha.dao.MoodMapper;
 import com.yorha.dao.UserMapper;
+import com.yorha.dao.UserMoodPraiseRelMapper;
 import com.yorha.dto.MoodDTO;
 import com.yorha.model.Mood;
 import com.yorha.model.User;
+import com.yorha.model.UserMoodPraiseRel;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -12,14 +14,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 @Service
-public class MoodServiceImpl implements MoodService{
+public class MoodServiceImpl implements MoodService {
 
     private final MoodMapper moodMapper;
     private final UserMapper userMapper;
+    private final UserMoodPraiseRelMapper userMoodPraiseRelMapper;
 
-    public MoodServiceImpl(MoodMapper moodMapper, UserMapper userMapper) {
+    public MoodServiceImpl(MoodMapper moodMapper, UserMapper userMapper, UserMoodPraiseRelMapper userMoodPraiseRelMapper) {
         this.moodMapper = moodMapper;
         this.userMapper = userMapper;
+        this.userMoodPraiseRelMapper = userMoodPraiseRelMapper;
     }
 
     @Override
@@ -27,10 +31,38 @@ public class MoodServiceImpl implements MoodService{
         return convertModel2DTO(moodMapper.findAll());
     }
 
-//    Mood转为MoodDTO,用于前端展示
-    private List<MoodDTO> convertModel2DTO(List<MoodDTO> moodList){
+
+    @Override
+    public boolean update(Mood mood) {
+        return moodMapper.update(mood);
+    }
+
+    @Override
+    public Mood findById(Integer id) {
+        return moodMapper.findById(id);
+    }
+
+    @Override
+//    处理用户点赞
+    public boolean praiseMood(Integer userId, Integer moodId) {
+//        保留关联
+        UserMoodPraiseRel userMoodPraiseRel = new UserMoodPraiseRel();
+        userMoodPraiseRel.setMoodId(moodId);
+        userMoodPraiseRel.setUserId(userId);
+
+        userMoodPraiseRelMapper.save(userMoodPraiseRel);
+//        更新说说点赞数
+        Mood mood = this.findById(moodId);
+        mood.setPraiseNum(mood.getPraiseNum() + 1);
+        this.update(mood);
+        return Boolean.TRUE;
+    }
+
+
+    //    Mood转为MoodDTO,用于前端展示
+    private List<MoodDTO> convertModel2DTO(List<Mood> moodList) {
         if (CollectionUtils.isEmpty(moodList)) return Collections.EMPTY_LIST;
-        List<MoodDTO> moodDTOList = new ArrayList<>();
+        List<MoodDTO> moodDTOList = new ArrayList<MoodDTO>();
         for (Mood mood : moodList) {
             MoodDTO moodDTO1 = new MoodDTO();
             //mood属性
@@ -44,10 +76,9 @@ public class MoodServiceImpl implements MoodService{
             moodDTO1.setUserName(user.getName());
             moodDTO1.setUserAccount(user.getAccount());
 
-            System.out.println(moodDTO1);
             moodDTOList.add(moodDTO1);
         }
         return moodDTOList;
     }
-
 }
+

@@ -6,7 +6,9 @@
     <select id="findAll" resultType="user">
         select * from book.user
     </select>
+
     <select id="find" resultType="user">
         select * from book.user where id = #{id}
     </select>
+
 </mapper>
