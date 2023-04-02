@@ -5,11 +5,9 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="hello-servlet">Hello Servlet</a></br>
-<a href="${pageContext.request.contextPath}/user/findAll">hello</a></br>
-<a href="${pageContext.request.contextPath}/user/find">hello</a>
+<h3>hello,SSM</h3>
+<p><a href="${pageContext.request.contextPath}/user/findAll">hello</a></p>
+<p><a href="${pageContext.request.contextPath}/mood/findAll">mood</a></p>
+<p><a href="${pageContext.request.contextPath}/user/find">find(1)</a></p>
 </body>
 </html>

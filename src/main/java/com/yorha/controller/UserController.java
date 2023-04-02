@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/findAll")
-    public String finAll(Model model){
+    public String findAll(Model model){
         List<User> users = userService.findAll();
         model.addAttribute("list",users);
         return "hello";

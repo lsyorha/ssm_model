@@ -23,7 +23,10 @@
         <b>发表时间：</b><span id="publish_time">${mood.publishTime}</span><br>
         <b>点赞数：</b><span id="praise_num">${mood.praiseNum}</span><br>
         <div style="margin-left: 350px">
-            <a id="praise" href="${pageContext.request.contextPath}/user/${mood.id}/praise?userId=${mood.userId}">赞</a>
+<%--            传统点赞--%>
+            <a id="praise" href="${pageContext.request.contextPath}/mood/${mood.id}/praise?userId=${mood.userId}">赞</a>
+<%--        引入redis--%>
+    <a id="praise" href="${pageContext.request.contextPath}/mood/${mood.id}/praiseForRedis?userId=${mood.userId}">赞</a>
         </div>
     </c:forEach>
 </div>
