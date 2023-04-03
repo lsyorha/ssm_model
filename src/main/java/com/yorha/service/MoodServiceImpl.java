@@ -111,8 +111,9 @@ public class MoodServiceImpl implements MoodService {
             moodDTO1.setUserId(mood.getUserId());
 
 //            总点赞数等于数据库点赞数+redis点赞数
-            moodDTO1.setPraiseNum((mood.getPraiseNum()
+            int sum = (int) ((mood.getPraiseNum()
                     + redisTemplate.opsForSet().size(mood.getId()).intValue()));
+            moodDTO1.setPraiseNum(sum);
             //moodDTO属性 设置用户信息，找不到UserMapper的话是因为还没注册bean
             User user = userMapper.find(mood.getUserId());
             moodDTO1.setUserName(user.getName());
@@ -120,6 +121,7 @@ public class MoodServiceImpl implements MoodService {
 
             moodDTOList.add(moodDTO1);
         }
+
         return moodDTOList;
     }
 }

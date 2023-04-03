@@ -30,6 +30,7 @@
         </div>
     </c:forEach>
 </div>
+<p><a href="${pageContext.request.contextPath}/mood/findAll">刷新</a></p>
 
 </body>
 </html>
