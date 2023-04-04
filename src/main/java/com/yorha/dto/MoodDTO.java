@@ -3,10 +3,11 @@ package com.yorha.dto;
 import com.yorha.model.Mood;
 
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
-public class MoodDTO extends Mood {
+public class MoodDTO extends Mood implements Serializable {
     public String getUserName() {
         return userName;
     }

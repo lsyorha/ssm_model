@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/jms
+    http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+<!--    导入配置文件-->
+<!--    ignore-unresolvable="false",设置为false，当占位符无法解析时方便查找错误-->
+<!--    <context:property-placeholder ignore-unresolvable="false" location="classpath:activemq.properties"/>-->
+<!--connectionFactory1主要是和redis的连接工厂区别开-->
+    <bean id="connectionFactory1" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+<!--        连接工厂-->
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+        <property name="userName" value="admin"/>
+        <property name="password" value="admin"/>
+        <property name="maxThreadPoolSize" value="100"/>
+    </bean>
+
+
+    <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="spring-queue"/>
+    </bean>
+
+    <!--生产者部分-->
+<!--    <bean id="destinationTopic" class="org.apache.activemq.command.ActiveMQTopic">-->
+<!--        <constructor-arg index="0" value="spring-topic"/>-->
+<!--    </bean>-->
+<!--    jmsTemplate消息生产者-->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg ref="connectionFactory1"/>
+        <property name="defaultDestination" ref="destination"/>
+<!--        <property name="messageConverter">
+            <bean class="org.springframework.jms.support.converter.SimpleMessageConverter"/>
+        </property>-->
+        <property name="receiveTimeout" value="10000"/>
+<!--        TRUE为Topic，默认及false为queue-->
+<!--        topic类似于广播，每个订阅该主题的都能收到消息且查看，而queue生产者生成的信息只能传导一个指定的队列中，一名用户查看后就销毁了-->
+<!--        <property name="pubSubDomain" value="false"/>-->
+    </bean>
+<!--    消息消费者   start-->
+<!--定义queue监听器-->
+    <jms:jca-listener-container destination-type="queue" acknowledge="auto">
+<!--        这里能写多个监听器-->
+        <jms:listener destination="demo02.mood.id.list.key" ref="moodConsumer"/>
+    </jms:jca-listener-container>
+<!--    对比课本上面少了connection-->
+</beans>

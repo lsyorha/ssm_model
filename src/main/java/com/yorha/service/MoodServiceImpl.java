@@ -7,10 +7,13 @@ import com.yorha.dto.MoodDTO;
 import com.yorha.model.Mood;
 import com.yorha.model.User;
 import com.yorha.model.UserMoodPraiseRel;
+import com.yorha.mq.MoodProducer;
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,11 +24,12 @@ public class MoodServiceImpl implements MoodService {
     private final UserMapper userMapper;
     private final UserMoodPraiseRelMapper userMoodPraiseRelMapper;
 
-    public MoodServiceImpl(MoodMapper moodMapper, UserMapper userMapper, UserMoodPraiseRelMapper userMoodPraiseRelMapper,RedisTemplate redisTemplate) {
+    public MoodServiceImpl(MoodMapper moodMapper, UserMapper userMapper, UserMoodPraiseRelMapper userMoodPraiseRelMapper, RedisTemplate redisTemplate, MoodProducer moodProducer) {
         this.moodMapper = moodMapper;
         this.userMapper = userMapper;
         this.userMoodPraiseRelMapper = userMoodPraiseRelMapper;
         this.redisTemplate = redisTemplate;
+        this.moodProducer = moodProducer;
     }
 
     @Override
@@ -86,8 +90,17 @@ public class MoodServiceImpl implements MoodService {
     private final RedisTemplate redisTemplate;
 //    key规范命名：项目名称+版本模块+具体内容
     private static final String PRAISE_HASH_KEY = "demo02.mood.id.list.key";
+//    添加队列功能
+    private final MoodProducer moodProducer;
+    private static Destination destination = new ActiveMQQueue("demo02.mood.id.list.key");
 
     public boolean praiseMoodForRedis(Integer userId,Integer moodId){
+//        修改为异步处理
+        MoodDTO moodDTO = new MoodDTO();
+        moodDTO.setUserId(userId);
+        moodDTO.setId(moodId);
+//        发送消息
+        moodProducer.sendMessage(destination,moodDTO);
 //        存放到set集合中
         redisTemplate.opsForSet().add(PRAISE_HASH_KEY , moodId);
 //        存放到set中
@@ -121,7 +134,6 @@ public class MoodServiceImpl implements MoodService {
 
             moodDTOList.add(moodDTO1);
         }
-
         return moodDTOList;
     }
 }

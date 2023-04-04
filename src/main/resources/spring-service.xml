@@ -7,9 +7,10 @@
     <!-- 扫描service相关的bean -->
     <context:component-scan base-package="com.yorha.service"/>
 
-<!--扫描job-->
+<!--扫描job，缓存里的数据保存到数据库-->
     <context:component-scan base-package="com.yorha.job"/>
-
+<!--    扫描mq，消息队列-->
+    <context:component-scan base-package="com.yorha.mq"/>
     <!--BookServiceImpl注入到IOC容器中，可以通过@Service   +    @Autowired实现自动装配，调用的话通过@Resource即可-->
 <!--    <bean id="UserServiceImpl" class="com.yorha.service.UserServiceImpl">
         &lt;!&ndash;        name对应的是BookServiceImpl里的setUserMapper，rel则对应usersMapper接口&ndash;&gt;
